@@ -9,7 +9,20 @@
 /* Begin PBXBuildFile section */
 		CA03C66B19B7EEBF008949ED /* Argue.h in Headers */ = {isa = PBXBuildFile; fileRef = CA03C66A19B7EEBF008949ED /* Argue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA03C67519B7EEBF008949ED /* ArgueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C67419B7EEBF008949ED /* ArgueTests.swift */; };
+		CA03C68019B7EEEE008949ED /* Argue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C67E19B7EEEE008949ED /* Argue.swift */; };
+		CA03C68119B7EEEE008949ED /* Argument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C67F19B7EEEE008949ED /* Argument.swift */; };
+		CA03C68319B7EEF6008949ED /* ArgumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C68219B7EEF6008949ED /* ArgumentTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CA03C68419B7EF7A008949ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA03C65C19B7EEBF008949ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA03C66419B7EEBF008949ED;
+			remoteInfo = Argue;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		CA03C66519B7EEBF008949ED /* Argue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Argue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -18,6 +31,9 @@
 		CA03C67019B7EEBF008949ED /* ArgueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArgueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA03C67319B7EEBF008949ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA03C67419B7EEBF008949ED /* ArgueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgueTests.swift; sourceTree = "<group>"; };
+		CA03C67E19B7EEEE008949ED /* Argue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Argue.swift; sourceTree = "<group>"; };
+		CA03C67F19B7EEEE008949ED /* Argument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Argument.swift; sourceTree = "<group>"; };
+		CA03C68219B7EEF6008949ED /* ArgumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgumentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				CA03C66A19B7EEBF008949ED /* Argue.h */,
+				CA03C67E19B7EEEE008949ED /* Argue.swift */,
+				CA03C67F19B7EEEE008949ED /* Argument.swift */,
 				CA03C66819B7EEBF008949ED /* Supporting Files */,
 			);
 			path = Argue;
@@ -77,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				CA03C67419B7EEBF008949ED /* ArgueTests.swift */,
+				CA03C68219B7EEF6008949ED /* ArgumentTests.swift */,
 				CA03C67219B7EEBF008949ED /* Supporting Files */,
 			);
 			path = ArgueTests;
@@ -133,6 +152,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CA03C68519B7EF7A008949ED /* PBXTargetDependency */,
 			);
 			name = ArgueTests;
 			productName = ArgueTests;
@@ -196,6 +216,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA03C68119B7EEEE008949ED /* Argument.swift in Sources */,
+				CA03C68019B7EEEE008949ED /* Argue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,11 +225,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA03C68319B7EEF6008949ED /* ArgumentTests.swift in Sources */,
 				CA03C67519B7EEBF008949ED /* ArgueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CA03C68519B7EF7A008949ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CA03C66419B7EEBF008949ED /* Argue */;
+			targetProxy = CA03C68419B7EF7A008949ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		CA03C67619B7EEBF008949ED /* Debug */ = {
@@ -294,6 +325,7 @@
 		CA03C67919B7EEBF008949ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -305,12 +337,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		CA03C67A19B7EEBF008949ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

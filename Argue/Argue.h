@@ -2,7 +2,7 @@
 //  Argue.h
 //  Argue
 //
-//  Created by Brandon Evans on 2014-09-03.
+//  Created by Brandon Evans on 2014-08-19.
 //  Copyright (c) 2014 Brandon Evans. All rights reserved.
 //
 
@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double ArgueVersionNumber;
 FOUNDATION_EXPORT const unsigned char ArgueVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Argue/PublicHeader.h>
-
-
