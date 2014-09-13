@@ -1,7 +1,9 @@
 Argue
 =====
 
-A really basic command-line argument parser in Swift
+A really basic command-line argument parser in Swift.
+
+Argue is used in [Remind](https://github.com/interstateone/Remind), a Swift CLI app to quickly deal with your reminders.
 
 Note that as of Xcode 6 beta 7 "Xcode does not support building static libraries
 that include Swift code. (17181019)". If you're creating a command line tool
