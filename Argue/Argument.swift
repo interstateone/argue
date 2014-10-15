@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Brandon Evans. All rights reserved.
 //
 
+import Foundation
+
 public enum ArgumentType {
     case Option
     case Flag
