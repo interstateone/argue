@@ -29,6 +29,7 @@ if error != nil {
 }
 
 if argue.helpArgument.value != nil {
+    println(argue.helpArgument.description)
     exit(0)
 }
 

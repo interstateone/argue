@@ -12,16 +12,16 @@ import Argue
 
 class ArgumentTests: XCTestCase {
     override func setUp() {
-        let argument1 = Argument(fullName: "test1", shortName: "t1", description: "A string", isFlag: false)
-        let argument2 = Argument(fullName: "test2", shortName: "t2", description: "A test flag", isFlag: true)
+        let argument1 = Argument(type: .Option, fullName: "test1", shortName: "1", description: "A string")
+        let argument2 = Argument(type: .Flag, fullName: "test2", shortName: "2", description: "A test flag")
     }
 
     func testMatchesArgumentName() {
-        let argument = Argument(fullName: "test", shortName: "t", description: "A test flag", isFlag: true)
-        XCTAssert(argument.matchesArgumentName("") == false)
-        XCTAssert(argument.matchesArgumentName("a") == false)
-        XCTAssert(argument.matchesArgumentName("apple") == false)
-        XCTAssert(argument.matchesArgumentName("-t") == true)
-        XCTAssert(argument.matchesArgumentName("--test") == true)
+        let argument = Argument(type: .Flag, fullName: "test", shortName: "t", description: "A test flag")
+        XCTAssert(argument.matchesToken(Token(input: "")) == false)
+        XCTAssert(argument.matchesToken(Token(input: "a")) == false)
+        XCTAssert(argument.matchesToken(Token(input: "apple")) == false)
+        XCTAssert(argument.matchesToken(Token(input: "-t")) == true)
+        XCTAssert(argument.matchesToken(Token(input: "--test")) == true)
     }
 }

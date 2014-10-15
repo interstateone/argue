@@ -12,6 +12,7 @@
 		CA03C68019B7EEEE008949ED /* Argue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C67E19B7EEEE008949ED /* Argue.swift */; };
 		CA03C68119B7EEEE008949ED /* Argument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C67F19B7EEEE008949ED /* Argument.swift */; };
 		CA03C68319B7EEF6008949ED /* ArgumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C68219B7EEF6008949ED /* ArgumentTests.swift */; };
+		CA730E9B19E825890040A220 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA730E9A19E825890040A220 /* Token.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		CA03C67E19B7EEEE008949ED /* Argue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Argue.swift; sourceTree = "<group>"; };
 		CA03C67F19B7EEEE008949ED /* Argument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Argument.swift; sourceTree = "<group>"; };
 		CA03C68219B7EEF6008949ED /* ArgumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgumentTests.swift; sourceTree = "<group>"; };
+		CA730E9A19E825890040A220 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				CA03C66A19B7EEBF008949ED /* Argue.h */,
 				CA03C67E19B7EEEE008949ED /* Argue.swift */,
 				CA03C67F19B7EEEE008949ED /* Argument.swift */,
+				CA730E9A19E825890040A220 /* Token.swift */,
 				CA03C66819B7EEBF008949ED /* Supporting Files */,
 			);
 			path = Argue;
@@ -216,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA730E9B19E825890040A220 /* Token.swift in Sources */,
 				CA03C68119B7EEEE008949ED /* Argument.swift in Sources */,
 				CA03C68019B7EEEE008949ED /* Argue.swift in Sources */,
 			);
@@ -410,6 +414,7 @@
 				CA03C67A19B7EEBF008949ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CA03C67B19B7EEBF008949ED /* Build configuration list for PBXNativeTarget "ArgueTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +423,7 @@
 				CA03C67D19B7EEBF008949ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

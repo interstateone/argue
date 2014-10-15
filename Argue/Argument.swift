@@ -6,45 +6,50 @@
 //  Copyright (c) 2014 Brandon Evans. All rights reserved.
 //
 
-public class Argument {
-    let fullName: String
-    let shortName: String
-    let description: String
-    let isFlag: Bool
-    public private(set) var value: AnyObject?
-    private var hasRealized: Bool = false
+public enum ArgumentType {
+    case Option
+    case Flag
+}
 
-    public init(fullName: String, shortName: String, description: String, isFlag: Bool) {
+public class Argument: Printable {
+    let fullName: String
+    let shortName: Character
+    let desc: String
+    let type: ArgumentType
+    private var _value: AnyObject?
+    public var value: AnyObject? {
+        get {
+            return _value
+        }
+        set {
+            var token: dispatch_once_t = 0
+            dispatch_once(&token) {
+                self._value = newValue
+            }
+        }
+    }
+
+    public init(type: ArgumentType, fullName: String, shortName: Character, description: String) {
         self.fullName = fullName
         self.shortName = shortName
-        self.description = description
-        self.isFlag = isFlag
+        self.desc = description
+        self.type = type
     }
 
-    public func matchesArgumentName(argumentName: String) -> Bool {
-        if argumentName.hasPrefix("---") {
-            return false
+    public func matchesToken(token: Token) -> Bool {
+        var result: Bool = false
+        switch token {
+        case .LongIdentifier(let longName):
+            result = self.fullName == longName
+        case .ShortIdentifier(let shortName):
+            result = self.shortName == shortName
+        case .Parameter(let parameter):
+            result = false
         }
-        else if argumentName.hasPrefix("--") {
-            return fullName == argumentName[2..<countElements(argumentName)]
-        }
-        else if argumentName.hasPrefix("-") {
-            let start = argumentName.startIndex
-            return shortName == argumentName[1..<countElements(argumentName)]
-        }
-        return false
+        return result
     }
-
-    public func usageString() -> String {
-        return "--\(fullName)\t(-\(shortName))\t\(description)"
-    }
-
-    func realize(argumentValue: AnyObject?) {
-        if hasRealized {
-            return
-        }
-        hasRealized = true
-        value = argumentValue
+    public var description: String {
+        return "--\(fullName)\t(-\(shortName))\t\(desc)"
     }
 }
 
