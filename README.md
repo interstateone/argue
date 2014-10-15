@@ -1,7 +1,7 @@
 Argue
 =====
 
-A really basic command-line argument parser in Swift.
+A really basic command-line argument parser in Swift. It currently supports Options (takes single parameters or arrays of them) and Flags (booleans).
 
 Argue is used in [Remind](https://github.com/interstateone/Remind), a Swift CLI app to quickly deal with your reminders.
 
