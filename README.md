@@ -1,6 +1,8 @@
 Argue
 =====
 
+[![CircleCI](https://circleci.com/gh/interstateone/argue.svg?style=svg)](https://circleci.com/gh/interstateone/argue)
+
 A really basic command-line argument parser in Swift. It currently supports values (takes single parameters or arrays of them) and flags (booleans).
 
 Argue is used in [remind](https://github.com/interstateone/remind), a Swift CLI app to quickly deal with your reminders.

@@ -6,11 +6,10 @@
 //  Copyright (c) 2014 Brandon Evans. All rights reserved.
 //
 
-import Cocoa
 import XCTest
-import Argue
+@testable import Argue
 
-class ArgueTests: XCTestCase {
+class ParsingTests: XCTestCase {
     let argument1 = Argument(type: .value, fullName: "test1", shortName: "1", description: "A string")
     let argument2 = Argument(type: .flag, fullName: "test2", shortName: "2", description: "A test flag")
     let argument3 = Argument(type: .value, fullName: "test3", shortName: "3", description: "Another string")
@@ -33,17 +32,9 @@ class ArgueTests: XCTestCase {
     }
 
     func testParseArgumentsError() {
-        var parseError: Error!
-
-        do {
-            try argue.parseArguments(["--wrongName"])
+        XCTAssertThrowsError(try argue.parseArguments(["--wrongName"]), "Failed to report error") { error in
+            XCTAssert(error.localizedDescription.characters.count > 0, "Failed to provide localized error description")
         }
-        catch {
-            parseError = error
-        }
-
-        XCTAssert(parseError != nil, "Failed to report error")
-        XCTAssert(parseError.localizedDescription.characters.count > 0, "Failed to provide localized error description")
     }
 
     func testParseArgumentsArray() {
@@ -72,5 +63,18 @@ class ArgueTests: XCTestCase {
     func testUsageString() {
         let lineBreaks = argue.description.components(separatedBy: "\n").count - 1
         XCTAssertEqual(lineBreaks, 7, "Failed to print the correct number of lines for usage instructions")
+    }
+
+    static var allTests: [(String, (ParsingTests) -> () throws -> Void)] {
+        return [
+            ("testParseArguments", testParseArguments),
+            ("testParseArgumentsEmpty", testParseArgumentsEmpty),
+            ("testParseArgumentsError", testParseArgumentsError),
+            ("testParseArgumentsArray", testParseArgumentsArray),
+            ("testParseArgumentsMultipleParameters", testParseArgumentsMultipleParameters),
+            ("testParse", testParse),
+            ("testHelpArgument", testHelpArgument),
+            ("testUsageString", testUsageString)
+        ]
     }
 }
