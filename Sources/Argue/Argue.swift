@@ -38,11 +38,11 @@ public class Argue: CustomStringConvertible {
     :returns: An error if there was an issue parsing an argument
     */
     public func parseArguments(_ arguments: [String]) throws {
-        parseTokens(from: arguments).forEach { tokenGroup in
+        try parseTokens(from: arguments).forEach { tokenGroup in
             guard
                 let firstToken = tokenGroup.first,
                 let argument = argumentForToken(firstToken)
-            else { return }
+            else { throw NSError(domain: "ca.brandonevans.Argue", code: 100, userInfo: [NSLocalizedDescriptionKey: "Unknown argument: \(tokenGroup.first?.unwrap())"]) }
 
             switch argument.type {
             case .flag:
@@ -62,7 +62,10 @@ public class Argue: CustomStringConvertible {
             case .parameter:
                 var lastGroup = groups.last ?? []
                 lastGroup += [token]
-                return groups[0..<(groups.count - 1)] + [lastGroup]
+                if groups.isEmpty {
+                    return [lastGroup]
+                }
+                return groups.prefix(upTo: groups.endIndex.advanced(by: -1)) + [lastGroup]
             }
         }
     }
