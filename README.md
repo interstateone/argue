@@ -1,32 +1,29 @@
 Argue
 =====
 
-A really basic command-line argument parser in Swift. It currently supports Options (takes single parameters or arrays of them) and Flags (booleans).
+A really basic command-line argument parser in Swift. It currently supports values (takes single parameters or arrays of them) and flags (booleans).
 
-Argue is used in [Remind](https://github.com/interstateone/Remind), a Swift CLI app to quickly deal with your reminders.
+Argue is used in [remind](https://github.com/interstateone/remind), a Swift CLI app to quickly deal with your reminders.
 
 ## Installation
 
 Install as a submodule with `git add submodule
-https://github.com/interstateone/Argue.git`.
+https://github.com/interstateone/argue.git`.
 
-Note that as of Xcode 6.1 beta 2 "Xcode does not support building static libraries
-that include Swift code. (17181019)". If you're creating a command line tool
-you'll need to use a static library instead of a framework, and that's not
-possible yet. Instead, as a workaround, just throw the source files into your
-project.
+Note that as of Xcode 8 "Xcode does not support building static libraries that include Swift code. (17181019)". If you're creating a command line tool you'll need to use a static library instead of a framework, and that's not possible yet. Instead, as a workaround, just throw the source files into your project.
 
 ## Usage
 
 ```swift
-let listArgument = Argument(type: .Option, fullName: "list", shortName: "l", description:
-"Prints only the reminders in the given list or creates a new reminder there")
-let newArgument = Argument(type: .Option, fullName: "new", shortName: "n", description:
-"Creates a new reminder")
+let listArgument = Argument(type: .value, fullName: "list", shortName: "l", description: "Prints only the reminders in the given list or creates a new reminder there")
+let newArgument = Argument(type: .value, fullName: "new", shortName: "n", description: "Creates a new reminder")
 let usage = "A little app to quickly deal with reminders."
 let argue = Argue(usage: usage, arguments: [newArgument, listArgument])
 
-if let error = argue.parse() {
+do {
+    try argue.parse()
+}
+catch {
     println("Error parsing arguments: \(error.localizedDescription)")
     exit(1)
 }

@@ -6,43 +6,9 @@
 //  Copyright (c) 2014 Brandon Evans. All rights reserved.
 //
 
-import Cocoa
+import Foundation
 
-extension String {
-    /// Returns the substring in the given range
-    subscript (r: Range<Int>) -> String {
-        get {
-            let startIndex = advance(self.startIndex, r.startIndex)
-            let endIndex = advance(startIndex, r.endIndex - r.startIndex)
-
-            return self[Range(start: startIndex, end: endIndex)]
-        }
-    }
-
-    /// Returns the character at the given index
-    subscript (i: Int) -> Character {
-        get {
-            let index = advance(self.startIndex, i)
-            return self[index]
-        }
-    }
-}
-
-/**
-Append an element to an array without mutating the lhs
-
-:param: lhs Array
-:param: rhs New element
-
-:returns: New array
-*/
-func +<T>(lhs: [T], rhs: T) -> [T] {
-    var a = lhs
-    a.append(rhs)
-    return a
-}
-
-public class Argue: NSObject, Printable {
+public class Argue: CustomStringConvertible {
     /// User-facing usage description
     let usage: String
 
@@ -50,16 +16,15 @@ public class Argue: NSObject, Printable {
     let arguments: [Argument]
 
     /// An automatically generated argument to show the usage guide
-    public let helpArgument = Argument(type: .Flag, fullName: "help", shortName: "h", description: "Show usage instructions")
+    public let helpArgument = Argument(type: .flag, fullName: "help", shortName: "h", description: "Show usage instructions")
 
     public init(usage: String, arguments: [Argument]) {
         self.usage = usage
-        self.arguments = arguments + helpArgument
-        super.init()
+        self.arguments = arguments + [helpArgument]
     }
 
     /// The usage guide for this command
-    public override var description: String {
+    public var description: String {
         return arguments.reduce("\(usage)\n\nArguments:\n") { (usage, argument) -> String in
             return usage + "\(argument.description)\n"
         }
@@ -72,59 +37,34 @@ public class Argue: NSObject, Printable {
 
     :returns: An error if there was an issue parsing an argument
     */
-    public func parseArguments(argumentStrings: [String]) -> NSError? {
-        let tokens = argumentStrings.map { Token(input: $0) }
-        var tokenGenerator = tokens.generate()
-        var currentArgument: Argument?
-        var currentParameters: [AnyObject] = []
+    public func parseArguments(_ arguments: [String]) throws {
+        parseTokens(from: arguments).forEach { tokenGroup in
+            guard
+                let firstToken = tokenGroup.first,
+                let argument = argumentForToken(firstToken)
+            else { return }
 
-        func parseArgument(input: Streamable, token: Token) -> NSError? {
-            if let argument = argumentForToken(token) {
-                if let currentArgument = currentArgument {
-                    switch currentArgument.type {
-                    case .Flag:
-                        currentArgument.value = true
-                    case .Option:
-                        currentArgument.value = currentParameters.count == 1 ? currentParameters.first : currentParameters
-                    }
-                    currentParameters = []
-                }
-
-                currentArgument = argument
+            switch argument.type {
+            case .flag:
+                argument.setValue(true)
+            case .value:
+                let parameters = tokenGroup[1..<tokenGroup.count].map { $0.unwrap() }
+                argument.setValue(parameters.count == 1 ? parameters.first : parameters)
             }
-            else {
-                return NSError(domain: "ca.brandonevans.Argue", code: 1, userInfo: [NSLocalizedDescriptionKey: "Error parsing argument \"\(input)\""])
-            }
-
-            return nil
         }
+    }
 
-        while let token = tokenGenerator.next() {
+    internal func parseTokens(from arguments: [String]) -> [[Token]] {
+        return arguments.map(Token.init).reduce([[Token]]()) { groups, token in
             switch token {
-            case .LongIdentifier(let longInput):
-                if let error = parseArgument(longInput, token) {
-                    return error
-                }
-            case .ShortIdentifier(let shortInput):
-                if let error = parseArgument(shortInput, token) {
-                    return error
-                }
-            case .Parameter(let parameter):
-                currentParameters.append(parameter)
+            case .longIdentifier, .shortIdentifier:
+                return groups + [[token]]
+            case .parameter:
+                var lastGroup = groups.last ?? []
+                lastGroup += [token]
+                return groups[0..<(groups.count - 1)] + [lastGroup]
             }
         }
-
-        if let currentArgument = currentArgument {
-            switch currentArgument.type {
-            case .Flag:
-                currentArgument.value = true
-            case .Option:
-                currentArgument.value = currentParameters.count == 1 ? currentParameters.first : currentParameters
-            }
-            currentParameters = []
-        }
-
-        return nil
     }
 
     /**
@@ -132,13 +72,13 @@ public class Argue: NSObject, Printable {
 
     :returns: An error if there was an issue parsing an argument
     */
-    public func parse() -> NSError? {
+    public func parse() throws {
         // Ignore the application path
-        var args = Process.arguments
-        if countElements(args) > 0 {
-            args.removeAtIndex(0)
+        var args = CommandLine.arguments
+        if args.count > 0 {
+            args.remove(at: 0)
         }
-        return parseArguments(args)
+        try parseArguments(args)
     }
 
     /**
@@ -148,8 +88,7 @@ public class Argue: NSObject, Printable {
 
     :returns: The matching argument
     */
-    private func argumentForToken(token: Token) -> Argument? {
-        let argument = arguments.filter({ $0.matchesToken(token) }).first
-        return argument
+    private func argumentForToken(_ token: Token) -> Argument? {
+        return arguments.filter({ $0.matchesToken(token) }).first
     }
 }

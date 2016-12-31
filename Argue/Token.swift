@@ -7,39 +7,37 @@
 //
 
 public enum Token {
-    case LongIdentifier(String)
-    case ShortIdentifier(Character)
-    case Parameter(AnyObject)
+    case longIdentifier(String)
+    case shortIdentifier(Character)
+    case parameter(Any)
 
     public init(input: String) {
-        let inputLength = countElements(input)
-
         if input.hasPrefix("---") {
-            self = .Parameter(input)
+            self = .parameter(input as Any)
         }
         else if input.hasPrefix("--") {
-            self = .LongIdentifier(input[2..<inputLength])
+            self = .longIdentifier(input.substring(with: input.index(input.startIndex, offsetBy: 2)..<input.endIndex))
         }
-        else if input.hasPrefix("-") {
-            self = .ShortIdentifier(input[1])
+        else if input.hasPrefix("-"), let trailingCharacter = input.substring(with: input.index(input.startIndex, offsetBy: 1)..<input.endIndex).characters.first {
+            self = .shortIdentifier(trailingCharacter)
         }
         else {
-            self = .Parameter(input)
+            self = .parameter(input)
         }
     }
 
     public init(input: Bool) {
-        self = .Parameter(input)
+        self = .parameter(input as Any)
     }
 
-    func unwrap() -> [AnyObject] {
+    func unwrap() -> Any {
         switch self {
-        case .LongIdentifier(let longName):
-            return [longName]
-        case .ShortIdentifier(let shortName):
-            return [String(shortName)]
-        case .Parameter(let parameter):
-            return [parameter]
+        case .longIdentifier(let longName):
+            return longName
+        case .shortIdentifier(let shortName):
+            return shortName
+        case .parameter(let parameter):
+            return parameter
         }
     }
 }
