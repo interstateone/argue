@@ -49,12 +49,6 @@ class ParsingTests: XCTestCase {
         XCTAssert(argument3.value as! String == "TESTING", "Error accessing value with subscript")
     }
 
-    func testParse() {
-        _ = try? argue.parse()
-        XCTAssert(argument1.value == nil, "Error parsing value")
-        XCTAssert(argument2.value == nil, "Error accessing value with subscript")
-    }
-
     func testHelpArgument() {
         try! argue.parseArguments(["--help"])
         XCTAssert(argue!.helpArgument.value != nil, "Failed to parse help argument")
@@ -72,7 +66,6 @@ class ParsingTests: XCTestCase {
             ("testParseArgumentsError", testParseArgumentsError),
             ("testParseArgumentsArray", testParseArgumentsArray),
             ("testParseArgumentsMultipleParameters", testParseArgumentsMultipleParameters),
-            ("testParse", testParse),
             ("testHelpArgument", testHelpArgument),
             ("testUsageString", testUsageString)
         ]

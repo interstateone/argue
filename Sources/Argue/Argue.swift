@@ -71,20 +71,6 @@ public class Argue: CustomStringConvertible {
     }
 
     /**
-    Convenience function for what parseArguments will almost always be used for
-
-    :returns: An error if there was an issue parsing an argument
-    */
-    public func parse() throws {
-        // Ignore the application path
-        var args = CommandLine.arguments
-        if args.count > 0 {
-            args.remove(at: 0)
-        }
-        try parseArguments(args)
-    }
-
-    /**
     Finds the argument, if there is one, that matches a given input string
 
     :param: argumentString The input string
