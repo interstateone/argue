@@ -49,6 +49,23 @@ class ParsingTests: XCTestCase {
         XCTAssert(argument3.value as! String == "TESTING", "Error accessing value with subscript")
     }
 
+    func testParseTokens() {
+        XCTAssertTrue(equals(argue.parseTokens(from: [""]), [[Token.parameter("")]]))
+
+        XCTAssertTrue(equals(argue.parseTokens(from: ["--add"]), [[Token.longIdentifier("add")]]))
+        XCTAssertTrue(equals(argue.parseTokens(from: ["--add", "path/file"]), [[Token.longIdentifier("add"), Token.parameter("path/file")]]))
+        XCTAssertTrue(equals(argue.parseTokens(from: ["--add", "path/file", "path/file2"]), [[Token.longIdentifier("add"), Token.parameter("path/file"), Token.parameter("path/file2")]]))
+
+        XCTAssertTrue(equals(argue.parseTokens(from: ["--add", "path/file", "-v"]), [
+            [Token.longIdentifier("add"), Token.parameter("path/file")],
+            [Token.shortIdentifier("v")]
+        ]))
+        XCTAssertTrue(equals(argue.parseTokens(from: ["--add", "path/file", "--remove", "path/file2"]), [
+            [Token.longIdentifier("add"), Token.parameter("path/file")],
+            [Token.longIdentifier("remove"), Token.parameter("path/file2")]
+        ]))
+    }
+
     func testHelpArgument() {
         try! argue.parseArguments(["--help"])
         XCTAssert(argue!.helpArgument.value != nil, "Failed to parse help argument")
@@ -66,8 +83,20 @@ class ParsingTests: XCTestCase {
             ("testParseArgumentsError", testParseArgumentsError),
             ("testParseArgumentsArray", testParseArgumentsArray),
             ("testParseArgumentsMultipleParameters", testParseArgumentsMultipleParameters),
+            ("testParseTokens", testParseTokens),
             ("testHelpArgument", testHelpArgument),
             ("testUsageString", testUsageString)
         ]
     }
+}
+
+func equals(_ lhs: [[Token]], _ rhs: [[Token]]) -> Bool {
+    guard lhs.count == rhs.count else { return false }
+    for (leftGroup, rightGroup) in zip(lhs, rhs) {
+        guard leftGroup.count == rightGroup.count else { return false }
+        for (left, right) in zip(leftGroup, rightGroup) {
+            if left != right { return false }
+        }
+    }
+    return true
 }
