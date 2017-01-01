@@ -42,7 +42,7 @@ public class Argue: CustomStringConvertible {
             guard
                 let firstToken = tokenGroup.first,
                 let argument = argumentForToken(firstToken)
-            else { throw ArgueError.unexpectedArgument(tokenGroup.first?.unwrap() as? String ?? "") }
+            else { throw ArgueError.unexpectedArgument(tokenGroup.first?.unwrap() ?? "") }
 
             switch argument.type {
             case .flag:

@@ -12,11 +12,11 @@ import XCTest
 class ArgumentTests: XCTestCase {
     func testMatchesArgumentName() {
         let argument = Argument(type: .flag, fullName: "test", shortName: "t", description: "A test flag")
-        XCTAssert(argument.matchesToken(Token(input: "")) == false)
-        XCTAssert(argument.matchesToken(Token(input: "a")) == false)
-        XCTAssert(argument.matchesToken(Token(input: "apple")) == false)
-        XCTAssert(argument.matchesToken(Token(input: "-t")) == true)
-        XCTAssert(argument.matchesToken(Token(input: "--test")) == true)
+        XCTAssert(argument.matchesToken(Token("")) == false)
+        XCTAssert(argument.matchesToken(Token("a")) == false)
+        XCTAssert(argument.matchesToken(Token("apple")) == false)
+        XCTAssert(argument.matchesToken(Token("-t")) == true)
+        XCTAssert(argument.matchesToken(Token("--test")) == true)
     }
 
     static var allTests: [(String, (ArgumentTests) -> () throws -> Void)] {
